@@ -9,6 +9,9 @@
 
     public class CMDeploymentType
     {
+        /// <summary>
+        /// Return a standard script installer object using common properties
+        /// </summary>
         static ScriptInstaller ReturnStandardScriptInstaller(string installCommand, string uninstallCommand, int postInstallBehaviour, int userInteractMode, int maxExecTime, int estimateExecTime, int execContext)
         {
             ScriptInstaller installer = new ScriptInstaller();
@@ -28,6 +31,9 @@
             return installer;
         }
 
+        /// <summary>
+        /// Add a script installer deployment type to an application, using a PowerShell script for the detection logic
+        /// </summary>
         public static void AddScriptInstaller(string applicationName, string installName, string powershellDetectionScript, string installCommand, string uninstallCommand, int postInstallBehaviour, int userInteractMode, int maxExecTime, int estimateExecTime, int execContext, string server)
         {
             Application app = CMApplication.GetApplicationByName(applicationName, server);
@@ -44,7 +50,7 @@
         }
 
         /// <summary>
-        /// Create a script installer using a HKLM registry key
+        /// Add a script installer deployment type to an application, using registry key in HKLM
         /// </summary>
         public static void AddScriptInstaller(string applicationName, string installName, string hklmKey, bool is64bit, string valueName, string valueNameValue, string dataType, string expressionOperator, string installCommand, string uninstallCommand, int postInstallBehaviour, int userInteractMode, int maxExecTime, int estimateExecTime, int execContext, string server)
         {
@@ -88,6 +94,9 @@
                 case "IsEquals":
                     expression = new Expression(ExpressionOperator.IsEquals, operands);
                     break;
+                case "LessEquals":
+                    expression = new Expression(ExpressionOperator.LessEquals, operands);
+                    break;
                 default:
                     break;
             }
@@ -104,6 +113,9 @@
             CMApplication.Save(app, server);
         }
 
+        /// <summary>
+        /// Using the priority 1 deployment types from two applications, create a supersedence relationship
+        /// </summary>
         public static void AddSupersedence(string newApplicationName, string supersededApplicationName, bool uninstall, string server)
         {
             Application newApp = CMApplication.GetApplicationByName(newApplicationName, server);
@@ -119,6 +131,9 @@
 
         }
 
+        /// <summary>
+        /// Add a requirement to an existing deployment type
+        /// </summary>
         public static void AddRequirement(string applicationName, string authoringScopeId, string logicalName, string settingLogicalName, int configItemSettingType, string value, string dataType, string expressionOperator, string server)
         {
             Application app = CMApplication.GetApplicationByName(applicationName, server);

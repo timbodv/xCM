@@ -8,6 +8,9 @@
 
     class CMApplication
     {
+        /// <summary>
+        /// Return a single Application object
+        /// </summary>
         internal static Application GetApplicationByName(string name, string server)
         {
             NamedObject.DefaultScope = "xCM";
@@ -30,6 +33,9 @@
             return applicationWrapper.InnerAppManObject as Application;
         }
 
+        /// <summary>
+        /// Update the Application object
+        /// </summary>
         internal static void Save(Application app, string server)
         {
             WqlConnectionManager connection = CMConnection.Connect(server);

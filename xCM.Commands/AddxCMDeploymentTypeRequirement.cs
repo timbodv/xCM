@@ -4,7 +4,7 @@
     using System.Management.Automation;
     using xCM.ConfigMgrLib;
 
-    [Cmdlet(VerbsCommon.Add, "xCMDeploymentTypeRequirement", HelpUri = "http://github.com/timbodv/xCM/xCM.Commands/Help/AddxCMDeploymentTypeRequirement.md")]
+    [Cmdlet(VerbsCommon.Add, "xCMDeploymentTypeRequirement", HelpUri = "https://github.com/timbodv/xCM/blob/master/xCM.Commands/Help/AddxCMDeploymentTypeRequirement.md")]
     public class AddxCMDeploymentTypeRequirement : PSCmdlet
     {
         [Parameter(Mandatory = true)]

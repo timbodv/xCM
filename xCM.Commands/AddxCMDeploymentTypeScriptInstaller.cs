@@ -4,7 +4,7 @@
     using System.Management.Automation;
     using xCM.ConfigMgrLib;
 
-    [Cmdlet(VerbsCommon.Add, "xCMDeploymentTypeScriptInstaller", HelpUri = "http://github.com/timbodv/xCM/xCM.Commands/Help/AddxCMDeploymentTypeScriptInstaller.md")]
+    [Cmdlet(VerbsCommon.Add, "xCMDeploymentTypeScriptInstaller", HelpUri = "https://github.com/timbodv/xCM/blob/master/xCM.Commands/Help/AddxCMDeploymentTypeScriptInstaller.md")]
     public class AddxCMDeploymentTypeScriptInstaller : PSCmdlet
     {
         [Parameter(Mandatory = true)]

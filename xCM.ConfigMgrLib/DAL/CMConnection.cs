@@ -6,6 +6,9 @@
 
     class CMConnection
     {
+        /// <summary>
+        /// Get a connection to the Configuration Manager server
+        /// </summary>
         internal static WqlConnectionManager Connect(string server)
         {
             try

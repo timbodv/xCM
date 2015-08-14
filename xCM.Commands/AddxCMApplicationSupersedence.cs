@@ -4,7 +4,7 @@
     using System.Management.Automation;
     using xCM.ConfigMgrLib;
 
-    [Cmdlet(VerbsCommon.Add, "xCMApplicationSupersedence", HelpUri = "http://github.com/timbodv/xCM/xCM.Commands/Help/AddxCMApplicationSupersedence.md")]
+    [Cmdlet(VerbsCommon.Add, "xCMApplicationSupersedence", HelpUri = "https://github.com/timbodv/xCM/blob/master/xCM.Commands/Help/AddxCMApplicationSupersedence.md")]
     public class AddxCMApplicationSupersedence : PSCmdlet
     {
         [Parameter(Mandatory = true)]

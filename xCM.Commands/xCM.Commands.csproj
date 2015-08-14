@@ -51,6 +51,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Help\AddxCMApplicationSupersedence.md" />
+    <None Include="Help\AddxCMDeploymentTypeRequirement.md" />
     <None Include="Help\AddxCMDeploymentTypeScriptInstaller.md" />
     <None Include="packages.config" />
   </ItemGroup>
