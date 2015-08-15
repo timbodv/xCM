@@ -19,15 +19,13 @@
                 connection.Connect(server);
                 return connection;
             }
-            catch (SmsException e)
+            catch (SmsException ex)
             {
-                Console.WriteLine("Failed to Connect. Error: " + e.Message);
-                return null;
+                throw new ApplicationException("Failed to connect", ex);
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException ex)
             {
-                Console.WriteLine("Failed to authenticate. Error:" + e.Message);
-                return null;
+                throw new ApplicationException("Failed to authenticate", ex);
             }
         }
     }

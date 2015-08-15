@@ -132,9 +132,9 @@
         }
 
         /// <summary>
-        /// Add a requirement to an existing deployment type
+        /// Add a registry requirement to an existing deployment type
         /// </summary>
-        public static void AddRequirement(string applicationName, string authoringScopeId, string logicalName, string settingLogicalName, int configItemSettingType, string value, string dataType, string expressionOperator, string server)
+        public static void AddRequirement(string applicationName, string authoringScopeId, string logicalName, string settingLogicalName, string value, string dataType, string expressionOperator, string server)
         {
             Application app = CMApplication.GetApplicationByName(applicationName, server);
             DeploymentType deploymentType = app.DeploymentTypes[0];
@@ -146,7 +146,7 @@
             switch (dataType)
             {
                 case "Version":
-                    settingReferences = new GlobalSettingReference(authoringScopeId, logicalName, DataType.Version, settingLogicalName, (ConfigurationItemSettingSourceType)configItemSettingType);
+                    settingReferences = new GlobalSettingReference(authoringScopeId, logicalName, DataType.Version, settingLogicalName, ConfigurationItemSettingSourceType.Registry);
                     constant = new ConstantValue(value, DataType.Version);
                     break;
                 default:
@@ -171,6 +171,49 @@
             }
 
             Rule rule = new Rule(Guid.NewGuid().ToString("N"), NoncomplianceSeverity.Critical, null, expression);
+
+            deploymentType.Requirements.Add(rule);
+            CMApplication.Save(app, server);
+        }
+
+        /// <summary>
+        /// Add an operating system requirement to an existing deployment type
+        /// </summary>
+        public static void AddRequirement(string applicationName, OperatingSystemValues os, string server)
+        {
+            Application app = CMApplication.GetApplicationByName(applicationName, server);
+            DeploymentType deploymentType = app.DeploymentTypes[0];
+
+            string ruleExpressionText = string.Empty;
+            string ruleAnnotationText = string.Empty;
+
+            switch (os)
+            {
+                case OperatingSystemValues.Windows81x86:
+                    ruleExpressionText = "Windows/All_x86_Windows_8.1_Client";
+                    ruleAnnotationText = "Operating system One of {All Windows 8.1(32 - bit)}";
+                    break;
+                case OperatingSystemValues.Windows81x64:
+                    ruleExpressionText = "Windows/All_x64_Windows_8.1_Client";
+                    ruleAnnotationText = "Operating system One of {All Windows 8.1(64 - bit)}";
+                    break;
+                case OperatingSystemValues.Windows10x86:
+                    ruleExpressionText = "Windows/All_x86_Windows_10_and_higher_Clients";
+                    ruleAnnotationText = "Operating system One of {All Windows 10 Professional/Enterprise and higher (32 - bit)}";
+                    break;
+                case OperatingSystemValues.Windows10x64:
+                    ruleExpressionText = "Windows/All_x64_Windows_10_and_higher_Clients";
+                    ruleAnnotationText = "Operating system One of {All Windows 10 Professional/Enterprise and higher (64 - bit)}";
+                    break;
+            }
+
+            CustomCollection<RuleExpression> ruleCollection = new CustomCollection<RuleExpression>();
+            RuleExpression ruleExpression = new RuleExpression(ruleExpressionText);
+            ruleCollection.Add(ruleExpression);
+
+            OperatingSystemExpression osExpression = new OperatingSystemExpression(ExpressionOperator.OneOf, ruleCollection);
+
+            Rule rule = new Rule(Guid.NewGuid().ToString("N"), NoncomplianceSeverity.None, new Annotation(ruleAnnotationText, null, null, null), osExpression);
 
             deploymentType.Requirements.Add(rule);
             CMApplication.Save(app, server);

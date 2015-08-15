@@ -64,6 +64,7 @@
     <Compile Include="DAL\CMDeploymentType.cs" />
     <Compile Include="DataClasses\ConfigItemSettingTypeValues.cs" />
     <Compile Include="DataClasses\ExecutionContextValues.cs" />
+    <Compile Include="DataClasses\OperatingSystemValues.cs" />
     <Compile Include="DataClasses\PostExecutionBehaviourValues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataClasses\UserInteractionValues.cs" />

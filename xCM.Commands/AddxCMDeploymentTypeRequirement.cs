@@ -10,42 +10,58 @@
         [Parameter(Mandatory = true)]
         public string ApplicationName { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, ParameterSetName = "RegistryRequirement")]
         public string AuthoringScopeId { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, ParameterSetName = "RegistryRequirement")]
         public string LogicalName { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, ParameterSetName = "RegistryRequirement")]
         public string SettingLogicalName { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, ParameterSetName = "RegistryRequirement")]
         public string Value { get; set; }
 
-        [Parameter(Mandatory = true)]
-        public ConfigItemSettingTypeValues ConfigItemSettingType { get; set; }
-
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, ParameterSetName = "RegistryRequirement")]
         [ValidateSetAttribute("Version")]
         public string ValueDataType { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, ParameterSetName = "RegistryRequirement")]
         [ValidateSetAttribute("IsEquals", "LessEquals")]
         public string Expression { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = "OsRequirement")]
+        public OperatingSystemValues OperatingSystem { get; set; }
 
         [Parameter(Mandatory = true)]
         public string ComputerName { get; set; }
 
         protected override void ProcessRecord()
         {
-            try
+            if (this.ParameterSetName == "RegistryRequirement")
             {
-                CMDeploymentType.AddRequirement(this.ApplicationName, this.AuthoringScopeId, this.LogicalName, this.SettingLogicalName, (int)this.ConfigItemSettingType, this.Value, this.ValueDataType, this.Expression, this.ComputerName);
-                this.WriteVerbose("Updated application with requirement information");
+                try
+                {
+                    CMDeploymentType.AddRequirement(this.ApplicationName, this.AuthoringScopeId, this.LogicalName, this.SettingLogicalName, this.Value, this.ValueDataType, this.Expression, this.ComputerName);
+                    this.WriteVerbose("Updated application with registry requirement information");
+                }
+                catch (Exception ex)
+                {
+                    this.WriteError(new ErrorRecord(ex, "", ErrorCategory.WriteError, this));
+                }
             }
-            catch (Exception ex)
+
+            if (this.ParameterSetName == "OsRequirement")
             {
-                this.WriteError(new ErrorRecord(ex, "", ErrorCategory.WriteError, this));
+                try
+                {
+                    CMDeploymentType.AddRequirement(this.ApplicationName, this.OperatingSystem, this.ComputerName);
+                    this.WriteVerbose("Updated application with OS requirement information");
+                }
+                catch (Exception ex)
+                {
+                    this.WriteError(new ErrorRecord(ex, "", ErrorCategory.WriteError, this));
+                }
             }
         }
     }
